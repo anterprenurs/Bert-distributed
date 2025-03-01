@@ -33,7 +33,7 @@ model_part2.eval()
 # FastAPI for HTTP request handling
 app = FastAPI()
 
-@serve.deployment(route_prefix="/infer")
+@serve.deployment
 @serve.ingress(app)
 class ModelInference:
     async def infer(self, request: Request):
@@ -43,7 +43,7 @@ class ModelInference:
         with torch.no_grad():
             final_output = model_part2(tensor_data)
 
-        return {"output": final_output.tolist()}  # Return as JSON
+        return {"output": final_output.tolist()}
 
-# Deploy ModelInference as a Ray Serve deployment
-ModelInference.deploy()
+# Deploy with route prefix specified here instead
+serve.run(ModelInference.bind(), route_prefix="/infer")
