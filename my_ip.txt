@@ -1,0 +1,23 @@
+response = requests.post("http://192.168.1.2:8000/infer", json=payload)
+
+On Your Friend's Side (Device 2 - Server):
+Get IP Addresses
+   # On Windows
+   ipconfig   # Look for "IPv4 Address" under your network adapter
+   
+   # On Linux/Mac
+   ifconfig   # Look for "inet" address
+Save their local IP (like 192.168.1.2)
+Get public IP by visiting whatismyip.com
+Port Forwarding Setup
+Access router settings (usually http://192.168.1.1 or http://192.168.0.1)
+Login with router credentials
+Find "Port Forwarding" section
+Add new rule:
+External Port: 8000
+Internal Port: 8000
+Internal IP: Your friend's local IP
+Protocol: TCP
+Save/Apply
+Firewall Settings
+New-NetFirewallRule -DisplayName "Allow Port 8000" -Direction Inbound -Protocol TCP -LocalPort 8000 -Action Allow
